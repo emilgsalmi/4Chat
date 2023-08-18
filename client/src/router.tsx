@@ -1,9 +1,9 @@
 import { createBrowserRouter } from 'react-router-dom';
 import App from './App';
-import Home from './pages/Home';
-import Lobby from './pages/Lobby';
-import Room from './pages/Room';
-import NotFound from './pages/404';
+import Home from './views/Home';
+import Lobby from './views/Lobby';
+import Room from './views/Room';
+import NotFound from './views/404';
 
 export const router = createBrowserRouter([
 	{
