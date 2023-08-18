@@ -16,6 +16,10 @@ app.use(express.static("public"))
 
 io.on("connection", (socket) => {
   console.log("New user connected", socket.id);
+
+  socket.on("user-connected", (username) => {
+    socket.broadcast.emit("new-user-connected", username)
+  })
   
 });
 
