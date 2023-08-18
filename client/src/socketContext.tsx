@@ -15,7 +15,7 @@ const defaultValues = {
 // Context to access socketinfo
 const SocketContext = createContext<ISocketContext>(defaultValues);
 
-// Function for using socket
+// Function for using context
 export const useSocket = () => useContext(SocketContext);
 
 // Provide Context to children components to give them access
