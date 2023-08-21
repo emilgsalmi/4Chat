@@ -7,10 +7,11 @@ interface ISocketContext {
  enterLobby : () => void,
  setUsername : React.Dispatch<React.SetStateAction<string>>,
  setMyRoom : React.Dispatch<React.SetStateAction<string>>,
- rooms : string[]
+ rooms : any []
 }
 
 // Default values for Context
+
 const defaultValues = {
  username : "",
  myRoom : "",
@@ -36,19 +37,19 @@ const SocketProvider = ({children}:PropsWithChildren) => {
 
     const [username, setUsername] = useState("");
     const [myRoom, setMyRoom] = useState("");
-    const [rooms, setRooms] = useState<string[]>([]);
+    const [rooms, setRooms] = useState([]);
 
 
 // Connect to socket & enter lobby
     const enterLobby = () => {
 		socket.connect();
 
-		socket.emit('user-connected', username);
+		socket.emit('join-room', 'lobby');
 	};
 
 // Listen to changes to rooms & update state 
     useEffect(() => {
-        socket.on('rooms', (roomList : string[]) => {
+        socket.on('rooms', (roomList : []) => {
              setRooms(roomList)
         })
     }, [])
@@ -61,7 +62,6 @@ const SocketProvider = ({children}:PropsWithChildren) => {
     useEffect(() => {
         if(myRoom !== "") {
             socket.emit('join-room', myRoom)
-            console.log(myRoom)
         }
     }, [myRoom])
 

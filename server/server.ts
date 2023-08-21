@@ -19,7 +19,7 @@ app.use(express.static('public'));
 io.on('connection', (socket) => {
 	console.log('New user connected', socket.id);
 
-	let rooms : string[] = [];
+	let rooms : any = [];
 
 	socket.on('user-connected', (username) => {
 		console.log("new user connercted: " + username)
@@ -30,14 +30,39 @@ io.on('connection', (socket) => {
 // Join room and emit current room list to clients
 	socket.on('join-room', (room) => {
 		socket.join(room)
-		rooms = [];
-		socket.leave(socket.id);
-		socket.rooms.forEach((r) => {
-			rooms.push(r)
-		})
+		// rooms = [];
+		// socket.leave(socket.id);
+		// socket.rooms.forEach((r) => {
+		// 	rooms.push(r)
+		// })
+
+	 updateRooms();
+
+	 console.log(rooms);
+
 
         socket.emit('rooms', rooms)
 	})
+
+
+	// Functions
+	
+	const updateRooms = () => {
+		let mymap = io.sockets.adapter.rooms;
+
+		let currentRooms : any = []
+
+		mymap.forEach((v, k, m) => {
+               let roomarray : any = [];
+			   roomarray.push(k)
+			   let valuelist = Array.from(v)
+			   roomarray.push(valuelist)
+			   currentRooms.push(roomarray)
+
+		})
+        rooms = currentRooms;
+	}
+
 });
 
 server.listen(2500, () => console.log('server is up and running'));
