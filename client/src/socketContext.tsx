@@ -5,8 +5,9 @@ interface ISocketContext {
  username : string,
  myRoom : string
  enterLobby : () => void,
- setUsername : React.Dispatch<React.SetStateAction<string>>
- setMyRoom : React.Dispatch<React.SetStateAction<string>>
+ setUsername : React.Dispatch<React.SetStateAction<string>>,
+ setMyRoom : React.Dispatch<React.SetStateAction<string>>,
+ rooms : string[]
 }
 
 // Default values for Context
@@ -15,7 +16,8 @@ const defaultValues = {
  myRoom : "",
  enterLobby : () => {},
  setUsername : () => {},
- setMyRoom : () => {}
+ setMyRoom : () => {},
+ rooms : []
 
 }
 
@@ -65,7 +67,7 @@ const SocketProvider = ({children}:PropsWithChildren) => {
 
 
     return (
-        <SocketContext.Provider value={ {username, myRoom, enterLobby, setUsername, setMyRoom} }>
+        <SocketContext.Provider value={ {username, myRoom, enterLobby, setUsername, setMyRoom, rooms} }>
            {children}
         </SocketContext.Provider>
     )
