@@ -11,25 +11,24 @@ export const validateUsername = (username: string): boolean => {
 	const validChars: RegExp = /^[a-zA-Z0-9]+$/; // Only letters and numbers
 
 	if (username.length < min || username.length > max) {
-		// Username length
+		// Invalid length
 		return false;
 	}
 
 	if (username.includes(' ')) {
-		// Username contains spaces
+		// Contains spaces
 		return false;
 	}
 
 	if (!validChars.test(username)) {
-		// Username contains invalid characters
+		// Contains invalid characters
 		return false;
 	}
 
 	if (!isNaN(Number(username))) {
-		// Username is a number
+		// Is a number
 		return false;
 	}
 
-	// Username is valid
 	return true;
 };
