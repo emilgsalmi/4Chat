@@ -27,12 +27,6 @@ export const useSocket = () => useContext(SocketContext);
 
 const socket = io('http://localhost:2500', { autoConnect: false });
 
-	// useEffect(() => {
-	// 	socket.on('new-connection', (username) => {
-	// 		console.log(username);
-	// 	});
-	// }, []);
-
 	
 
 // Provide Context to children components to give them access
@@ -40,6 +34,8 @@ const SocketProvider = ({children}:PropsWithChildren) => {
 
     const [username, setUsername] = useState("");
     const [room, setRoom] = useState("");
+
+
 
     const enterLobby = () => {
 		socket.connect();
@@ -54,6 +50,7 @@ const SocketProvider = ({children}:PropsWithChildren) => {
         socket.emit("join-room", room)
 
     }, [room])
+
 
     return (
         <SocketContext.Provider value={ {username, room, enterLobby, setUsername, setRoom} }>
