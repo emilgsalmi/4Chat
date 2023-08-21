@@ -1,24 +1,35 @@
+// CLIENT SIDE VALIDATION
 export const validateUsername = (username: string): boolean => {
-	const [min, max] = [3, 12];
+	/* 
+		* Username validation rules:
+		- Username must be between 3 and 12 characters long
+		- Username must not contain spaces
+		- Username must only contain letters and numbers
+		- Username must not be a number
+	 */
+	const [min, max] = [3, 12]; // Username length
 	const validChars: RegExp = /^[a-zA-Z0-9]+$/; // Only letters and numbers
-	// const min: number = 3;
-	// const max: number = 12;
 
 	if (username.length < min || username.length > max) {
+		// Username length
 		return false;
 	}
 
 	if (username.includes(' ')) {
+		// Username contains spaces
 		return false;
 	}
 
 	if (!validChars.test(username)) {
+		// Username contains invalid characters
 		return false;
 	}
 
 	if (!isNaN(Number(username))) {
+		// Username is a number
 		return false;
 	}
 
+	// Username is valid
 	return true;
 };

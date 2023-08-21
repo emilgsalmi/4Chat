@@ -4,7 +4,7 @@ import { validateUsername } from '../utils/validation';
 
 function Home() {
 	const { setUsername, username, enterLobby } = useSocket();
-	const [errorMsg, setErrorMsg] = useState('');
+	const [errorMsg, setErrorMsg] = useState(''); // error message to display if username is invalid
 
 	return (
 		<>
@@ -19,10 +19,13 @@ function Home() {
 				/>
 				<button
 					onClick={() => {
+						// validate username
 						if (validateUsername(username)) {
+							// if valid: set username and enter lobby
 							window.location.href = '/lobby';
 							enterLobby();
 						} else {
+							// if invalid: display error message
 							setErrorMsg(
 								'Username must be 3-12 characters long and only contain letters and numbers'
 							);
