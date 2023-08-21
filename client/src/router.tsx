@@ -17,7 +17,7 @@ export const router = createBrowserRouter([
 				index: true,
 			},
 			{
-				path: '/lobby/:userId',
+				path: '/lobby',
 				element: <Lobby />,
 			},
 			{
