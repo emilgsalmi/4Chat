@@ -27,7 +27,7 @@ const SocketContext = createContext<ISocketContext>(defaultValues);
 // Function for using context
 export const useSocket = () => useContext(SocketContext);
 
-const socket = io('http://localhost:2500', { autoConnect: true });
+const socket = io('http://localhost:2500', { autoConnect: false });
 
 	
 

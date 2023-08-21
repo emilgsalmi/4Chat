@@ -1,10 +1,12 @@
 import { useState, useEffect } from 'react';
 import { useSocket } from '../socketContext';
+import { useNavigate } from 'react-router';
 
 
 function Home() {
 
 	const {setUsername, enterLobby} = useSocket();
+	const navigate = useNavigate();
 
 	return (
 		<>
@@ -17,9 +19,10 @@ function Home() {
 						setUsername(e.target.value);
 					}}
 				/>
-				<button
+		     	<button
 					onClick={() => {
 						enterLobby();
+						navigate('/lobby')
 					}}
 				>
 					Enter Lobby

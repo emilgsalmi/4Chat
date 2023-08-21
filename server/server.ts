@@ -15,7 +15,7 @@ const io = new Server(server, {
 app.use(express.static('public'));
 
 
-
+const sids = io.of("/").adapter.sids;
 
 
 io.on('connection', (socket) => {
@@ -27,10 +27,13 @@ io.on('connection', (socket) => {
 		console.log("new user connercted: " + username)
 	});
 
+	
+
 // Join room and emit current room list to clients
 	socket.on('join-room', (room) => {
 		socket.join(room)
 		rooms = [];
+		socket.leave(socket.id);
 		socket.rooms.forEach((r) => {
 			rooms.push(r)
 		})
