@@ -15,8 +15,6 @@ const io = new Server(server, {
 app.use(express.static('public'));
 
 
-const sids = io.of("/").adapter.sids;
-
 
 io.on('connection', (socket) => {
 	console.log('New user connected', socket.id);
