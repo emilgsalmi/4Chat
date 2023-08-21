@@ -55,7 +55,7 @@ const SocketProvider = ({children}:PropsWithChildren) => {
         console.log(rooms);
     }, [rooms])
 
-    // Listen to changes to room and join room on change
+    // Listen to changes to user's room and join room on change
     useEffect(() => {
         if(myRoom !== "") {
             socket.emit('join-room', myRoom)
