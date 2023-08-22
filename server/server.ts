@@ -19,48 +19,49 @@ app.use(express.static('public'));
 io.on('connection', (socket) => {
 	console.log('New user connected', socket.id);
 
-	let rooms : any = [];
+	let rooms : any = {};
+	let userList = new Map();
 
-	socket.on('user-connected', (username) => {
-		console.log("new user connercted: " + username)
+	socket.on('new-user', (username) => {
+		userList.set(socket.id, username)
 	});
 
 	
 
-// Join room and emit current room list to clients
+// Join room and update list of rooms
 	socket.on('join-room', (room) => {
 		socket.join(room)
-		// rooms = [];
-		// socket.leave(socket.id);
-		// socket.rooms.forEach((r) => {
-		// 	rooms.push(r)
-		// })
 
+		socket.leave(socket.id)
+	
+		
 	 updateRooms();
 
-	 console.log(rooms);
-
-
-        socket.emit('rooms', rooms)
+     socket.emit('rooms', rooms)
 	})
 
+// Leave room and update list of rooms
 
-	// Functions
+  socket.on('leave-room', (room) => {
+	socket.leave(room)
+
+	updateRooms();
+
+	socket.emit('rooms', rooms)
+  })
+
+
+	// Functions & Utils
 	
 	const updateRooms = () => {
-		let mymap = io.sockets.adapter.rooms;
+	
+		const roomObject = Object.fromEntries(Array.from(io.sockets.adapter.rooms, ([key, value]) => {
+			return [key, Array.from(value)]
+		}))
 
-		let currentRooms : any = []
+		console.log(roomObject)
 
-		mymap.forEach((v, k, m) => {
-               let roomarray : any = [];
-			   roomarray.push(k)
-			   let valuelist = Array.from(v)
-			   roomarray.push(valuelist)
-			   currentRooms.push(roomarray)
-
-		})
-        rooms = currentRooms;
+		rooms = roomObject
 	}
 
 });
