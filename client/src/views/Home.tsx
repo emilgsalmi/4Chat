@@ -1,11 +1,11 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useSocket } from '../socketContext';
 import { useNavigate } from 'react-router';
-
+import { validateUsername } from '../utils/validation';
 
 function Home() {
-
-	const {username, setUsername, enterLobby} = useSocket();
+	const {username,  setUsername, username, enterLobby } = useSocket();
+	const [errorMsg, setErrorMsg] = useState(''); // error message to display if username is invalid
 	const navigate = useNavigate();
 
 	return (
@@ -21,12 +21,24 @@ function Home() {
 				/>
 		     	<button
 					onClick={() => {
-						enterLobby(username);
-						navigate('/lobby')
+						// validate username
+						if (validateUsername(username)) {
+							// if valid: set username and enter lobby
+							window.location.href = '/lobby';
+							enterLobby();
+						} else {
+							// if invalid: display error message
+							setErrorMsg(
+								'Username must be 3-12 characters long and only contain letters and numbers'
+							);
+						}
 					}}
 				>
 					Enter Lobby
 				</button>
+			</div>
+			<div>
+				<span className='usernameError'>{errorMsg}</span>
 			</div>
 		</>
 	);
