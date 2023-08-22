@@ -14,16 +14,21 @@ const io = new Server(server, {
 
 app.use(express.static('public'));
 
-
+const userList = new Map();
+let rooms : any = {};
 
 io.on('connection', (socket) => {
 	console.log('New user connected', socket.id);
 
-	let rooms : any = {};
-	let userList = new Map();
+
+
 
 	socket.on('new-user', (username) => {
-		userList.set(socket.id, username)
+	
+		userList.set(socket.id, username);
+
+		socket.data.username = username;
+
 	});
 
 	
@@ -56,9 +61,11 @@ io.on('connection', (socket) => {
 	const updateRooms = () => {
 	
 		const roomObject = Object.fromEntries(Array.from(io.sockets.adapter.rooms, ([key, value]) => {
-		let	usernames: any = []
+		
+			let	usernames: any = []	
 			value.forEach((v) => {
 				usernames.push(userList.get(v))
+				console.log(userList)
 			})
 			return [key, usernames]
 		}))
