@@ -56,7 +56,11 @@ io.on('connection', (socket) => {
 	const updateRooms = () => {
 	
 		const roomObject = Object.fromEntries(Array.from(io.sockets.adapter.rooms, ([key, value]) => {
-			return [key, Array.from(value)]
+		let	usernames: any = []
+			value.forEach((v) => {
+				usernames.push(userList.get(v))
+			})
+			return [key, usernames]
 		}))
 
 		console.log(roomObject)
