@@ -4,7 +4,7 @@ import { io } from 'socket.io-client';
 interface ISocketContext {
  username : string,
  myRoom : string
- enterLobby : () => void,
+ enterLobby : (username:string) => void,
  setUsername : React.Dispatch<React.SetStateAction<string>>,
  setMyRoom : React.Dispatch<React.SetStateAction<string>>,
  rooms : any []
@@ -41,15 +41,17 @@ const SocketProvider = ({children}:PropsWithChildren) => {
 
 
 // Connect to socket & enter lobby
-    const enterLobby = () => {
+    const enterLobby = (username:string) => {
 		socket.connect();
 
+        socket.emit('new-user', username);
 		socket.emit('join-room', 'lobby');
+        
 	};
 
 // Listen to changes to rooms & update state 
     useEffect(() => {
-        socket.on('rooms', (roomList : []) => {
+        socket.on('rooms', (roomList) => {
              setRooms(roomList)
         })
     }, [])

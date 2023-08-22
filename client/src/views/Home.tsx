@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router';
 
 function Home() {
 
-	const {setUsername, enterLobby} = useSocket();
+	const {username, setUsername, enterLobby} = useSocket();
 	const navigate = useNavigate();
 
 	return (
@@ -21,7 +21,7 @@ function Home() {
 				/>
 		     	<button
 					onClick={() => {
-						enterLobby();
+						enterLobby(username);
 						navigate('/lobby')
 					}}
 				>
