@@ -42,7 +42,7 @@ io.on('connection', (socket) => {
 		
 	 updateRooms();
 
-     socket.emit('rooms', rooms)
+     socket.broadcast.emit('rooms', rooms)
 	})
 
 // Leave room and update list of rooms
