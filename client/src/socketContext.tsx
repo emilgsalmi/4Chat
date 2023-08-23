@@ -11,6 +11,12 @@ interface ISocketContext {
  leaveRoom : (room:string) => void
 }
 
+export interface IRoomObject {
+    room : string,
+    participants: string[]
+}
+
+
 // Default values for Context
 
 const defaultValues = {
@@ -20,7 +26,6 @@ const defaultValues = {
  setUsername : () => {},
  setMyRoom : () => {},
  rooms : {},
-//  participants : []
 leaveRoom : () => {}
 
 }
@@ -43,6 +48,7 @@ const SocketProvider = ({children}:PropsWithChildren) => {
     const [rooms, setRooms] = useState({});
 
 
+
 // Connect to socket & enter lobby
     const enterLobby = (username:string) => {
 		socket.connect();
@@ -54,7 +60,7 @@ const SocketProvider = ({children}:PropsWithChildren) => {
 
 // Listen to changes to rooms & update state 
     useEffect(() => {
-        socket.on('rooms', (roomList) => {
+        socket.on('rooms', (roomList : IRoomObject[] ) => {
              setRooms(roomList)
         })
     }, [])
@@ -62,6 +68,7 @@ const SocketProvider = ({children}:PropsWithChildren) => {
     useEffect(() => {
         console.log(rooms);
     }, [rooms])
+
 
     // Listen to changes to user's room and join room on change
     useEffect(() => {
