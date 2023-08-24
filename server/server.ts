@@ -55,6 +55,13 @@ io.on('connection', (socket) => {
 	socket.broadcast.emit('rooms', rooms)
   })
 
+// User is typing
+
+  socket.on('is-typing', ({user, room}) => {
+	
+      socket.to(room).emit('user-typing', user)
+  })
+
 
 	// Functions & Utils
 	

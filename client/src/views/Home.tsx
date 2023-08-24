@@ -6,6 +6,8 @@ import { validateUsername } from '../utils/validation';
 function Home() {
 	const { username, setUsername, enterLobby } = useSocket();
 	const [errorMsg, setErrorMsg] = useState(''); // error message to display if username is invalid
+
+	const [usernameHolder, setUsernameHolder] = useState("")
 	
 	const navigate = useNavigate();
 
@@ -17,15 +19,15 @@ function Home() {
 				<input
 					type='text'
 					onChange={(e) => {
-						setUsername(e.target.value);
+						setUsernameHolder(e.target.value);
 					}}
 				/>
 				<button
 					onClick={() => {
 						// validate username
-						if (validateUsername(username)) {
+						if (validateUsername(usernameHolder)) {
 							// if valid: set username and enter lobby
-							enterLobby(username);
+							enterLobby(usernameHolder);
 							navigate('/lobby');
 						} else {
 							// if invalid: display error message
