@@ -1,12 +1,13 @@
 import { useState } from 'react';
 import { useSocket } from '../socketContext';
-// import { useNavigate } from 'react-router';
+import { useNavigate } from 'react-router';
 import { validateUsername } from '../utils/validation';
 
 function Home() {
 	const { username, setUsername, enterLobby } = useSocket();
 	const [errorMsg, setErrorMsg] = useState(''); // error message to display if username is invalid
-	// const navigate = useNavigate();
+	
+	const navigate = useNavigate();
 
 	return (
 		<>
@@ -24,8 +25,8 @@ function Home() {
 						// validate username
 						if (validateUsername(username)) {
 							// if valid: set username and enter lobby
-							window.location.href = '/lobby';
 							enterLobby(username);
+							navigate('/lobby');
 						} else {
 							// if invalid: display error message
 							setErrorMsg(

@@ -7,8 +7,15 @@ interface ISocketContext {
  enterLobby : (username:string) => void,
  setUsername : React.Dispatch<React.SetStateAction<string>>,
  setMyRoom : React.Dispatch<React.SetStateAction<string>>,
- rooms : any []
+ rooms : {},
+ leaveRoom : (room:string) => void
 }
+
+export interface IRoomObject {
+    room : string,
+    participants: string[]
+}
+
 
 // Default values for Context
 
@@ -18,7 +25,8 @@ const defaultValues = {
  enterLobby : () => {},
  setUsername : () => {},
  setMyRoom : () => {},
- rooms : []
+ rooms : {},
+leaveRoom : () => {}
 
 }
 
@@ -37,7 +45,8 @@ const SocketProvider = ({children}:PropsWithChildren) => {
 
     const [username, setUsername] = useState("");
     const [myRoom, setMyRoom] = useState("");
-    const [rooms, setRooms] = useState([]);
+    const [rooms, setRooms] = useState({});
+
 
 
 // Connect to socket & enter lobby
@@ -51,7 +60,7 @@ const SocketProvider = ({children}:PropsWithChildren) => {
 
 // Listen to changes to rooms & update state 
     useEffect(() => {
-        socket.on('rooms', (roomList) => {
+        socket.on('rooms', (roomList : IRoomObject[] ) => {
              setRooms(roomList)
         })
     }, [])
@@ -60,16 +69,25 @@ const SocketProvider = ({children}:PropsWithChildren) => {
         console.log(rooms);
     }, [rooms])
 
+
     // Listen to changes to user's room and join room on change
     useEffect(() => {
         if(myRoom !== "") {
             socket.emit('join-room', myRoom)
         }
+       
     }, [myRoom])
+
+ // Leave room
+    const leaveRoom = (room : string) => {
+        socket.emit('leave-room', room)
+
+    }
+
 
 
     return (
-        <SocketContext.Provider value={ {username, myRoom, enterLobby, setUsername, setMyRoom, rooms} }>
+        <SocketContext.Provider value={ {username, myRoom, enterLobby, setUsername, setMyRoom, rooms, leaveRoom} }>
            {children}
         </SocketContext.Provider>
     )
