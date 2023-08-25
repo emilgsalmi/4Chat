@@ -1,14 +1,16 @@
 import { useEffect, useState } from "react";
-import { IRoomObject, useSocket } from "../socketContext";
+import { useSocket } from "../socketContext";
 import { useNavigate } from "react-router";
 
 
 
 function Room() {
-	const {rooms, myRoom, leaveRoom} = useSocket();
+	const {rooms, myRoom, leaveRoom, username, isTyping, userTyping} = useSocket();
 
 	const [participantList, setParticipantList] = useState([])
 	const [html, setHtml] = useState<JSX.Element[]>([])
+	const [message, setMessage] = useState("")
+	const [whoIsTyping, setWhoIsTyping] = useState("")
 
 	
 	
@@ -17,13 +19,12 @@ function Room() {
 	
 	useEffect(() => {
 		
-		for (const [key, value] of Object.entries(rooms)) {
-			if (key === myRoom) {
+		for (const [room, names] of Object.entries(rooms)) {
+			if (room === myRoom) {
 				let list : any = [];	
-				for(let i =0; i<value.length; i++) {
-					list.push(value[i]);
+				for(let i =0; i<names.length; i++) {
+					list.push(names[i]);
 				}
-				console.log(list.length)
 				setParticipantList(list);
 			}
 			
@@ -32,16 +33,17 @@ function Room() {
 	}, [rooms])
 
 	useEffect(() => {
-		console.log(participantList);
-		console.log(participantList.length)
          let names = 
 			participantList.map((name, i) => {
-				console.log(name)
 				return <li key={i}>{name}</li>
 			});
 			setHtml(names)
       
 	}, [participantList])
+
+	useEffect(() => {
+         setWhoIsTyping(userTyping)
+	}, [userTyping])
 
 
 	
@@ -51,7 +53,14 @@ function Room() {
 		<div>
 			<h1>{myRoom}</h1>
 
-			<div className="chatbox"></div>
+			<div className="chatbox">
+
+				<p>{whoIsTyping}</p>
+				<input type="text" onChange={(e) => {
+					setMessage(e.target.value);
+					isTyping(username, myRoom);
+				}}/>
+			</div>
 
 	        <ul>
 

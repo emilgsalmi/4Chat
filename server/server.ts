@@ -38,10 +38,10 @@ io.on('connection', (socket) => {
 		socket.join(room)
 
 		socket.leave(socket.id)
-	
+	console.log(room)
 		
 	 updateRooms();
-
+     console.log(rooms);
      socket.broadcast.emit('rooms', rooms)
 	})
 
@@ -51,8 +51,16 @@ io.on('connection', (socket) => {
 	socket.leave(room)
 
 	updateRooms();
-
+     
+	console.log(rooms);
 	socket.broadcast.emit('rooms', rooms)
+  })
+
+// User is typing
+
+  socket.on('is-typing', ({user, room}) => {
+	
+      socket.to(room).emit('user-typing', user)
   })
 
 
@@ -60,14 +68,11 @@ io.on('connection', (socket) => {
 	
 	const updateRooms = () => {
 	
-		console.log()
-		
 		let roomObject = Object.fromEntries(Array.from(io.sockets.adapter.rooms, ([key, value]) => {
 		
 			let	usernames: any = []	
 			value.forEach((v) => {
 				usernames.push(userList.get(v))
-				console.log(userList)
 			})
 			return [key, usernames]
 		}))
