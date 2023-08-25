@@ -35,7 +35,6 @@ function Room() {
 	useEffect(() => {
          let names = 
 			participantList.map((name, i) => {
-				console.log(name)
 				return <li key={i}>{name}</li>
 			});
 			setHtml(names)
