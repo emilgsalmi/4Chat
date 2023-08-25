@@ -20,6 +20,7 @@ function Room() {
 	useEffect(() => {
 		
 		for (const [room, names] of Object.entries(rooms)) {
+			console.log(room);
 			if (room === myRoom) {
 				let list : any = [];	
 				for(let i =0; i<names.length; i++) {

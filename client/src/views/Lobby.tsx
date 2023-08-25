@@ -8,10 +8,12 @@ function Lobby() {
 
 	const {setMyRoom} = useSocket();
 	const navigate = useNavigate();
+
+
 	return (
 		<div>
 			<h1>Lobby</h1>
-
+           
 			<div>
 				<h3>Create Room</h3>
 			<input type="text" placeholder="Topic" onChange={(e) => {setTopic(e.target.value)}} />
