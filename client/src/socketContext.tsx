@@ -88,7 +88,6 @@ const SocketProvider = ({children}:PropsWithChildren) => {
 
         // Listen to changes to rooms & update state 
         socket.on('rooms', (roomList : IRoomObject[] ) => {
-            console.log(roomList)
              setRooms(roomList)
         })
 
@@ -105,7 +104,6 @@ const SocketProvider = ({children}:PropsWithChildren) => {
 
     // Leave room function
     const leaveRoom = (room : string) => {
-        console.log(username)
         setMyRoom("");
         socket.emit('leave-room', room)
 
