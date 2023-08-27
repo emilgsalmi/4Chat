@@ -15,7 +15,7 @@ const io = new Server(server, {
 app.use(express.static('public'));
 
 const userList = new Map();
-let rooms : any = {};
+let rooms : any = [];
 
 io.on('connection', (socket) => {
 	console.log('New user connected', socket.id);
@@ -38,11 +38,11 @@ io.on('connection', (socket) => {
 		socket.join(room)
 
 		socket.leave(socket.id)
-	
+	console.log(room)
 		
 	 updateRooms();
-
-     socket.emit('rooms', rooms)
+     console.log(rooms);
+     socket.broadcast.emit('rooms', rooms)
 	})
 
 // Leave room and update list of rooms
@@ -51,8 +51,16 @@ io.on('connection', (socket) => {
 	socket.leave(room)
 
 	updateRooms();
+     
+	console.log(rooms);
+	socket.broadcast.emit('rooms', rooms)
+  })
 
-	socket.emit('rooms', rooms)
+// User is typing
+
+  socket.on('is-typing', ({user, room}) => {
+	
+      socket.to(room).emit('user-typing', user)
   })
 
 
@@ -60,17 +68,15 @@ io.on('connection', (socket) => {
 	
 	const updateRooms = () => {
 	
-		const roomObject = Object.fromEntries(Array.from(io.sockets.adapter.rooms, ([key, value]) => {
+		let roomObject = Object.fromEntries(Array.from(io.sockets.adapter.rooms, ([key, value]) => {
 		
 			let	usernames: any = []	
 			value.forEach((v) => {
 				usernames.push(userList.get(v))
-				console.log(userList)
 			})
 			return [key, usernames]
 		}))
 
-		console.log(roomObject)
 
 		rooms = roomObject
 	}

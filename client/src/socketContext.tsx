@@ -7,8 +7,17 @@ interface ISocketContext {
  enterLobby : (username:string) => void,
  setUsername : React.Dispatch<React.SetStateAction<string>>,
  setMyRoom : React.Dispatch<React.SetStateAction<string>>,
- rooms : any []
+ rooms : {},
+ leaveRoom : (room:string) => void,
+ isTyping : (user:string, room:string) => void,
+ userTyping : string
 }
+
+export interface IRoomObject {
+    room : string,
+    participants: string[]
+}
+
 
 // Default values for Context
 
@@ -18,7 +27,10 @@ const defaultValues = {
  enterLobby : () => {},
  setUsername : () => {},
  setMyRoom : () => {},
- rooms : []
+ rooms : {},
+leaveRoom : () => {},
+isTyping : () => {},
+userTyping : ""
 
 }
 
@@ -37,39 +49,76 @@ const SocketProvider = ({children}:PropsWithChildren) => {
 
     const [username, setUsername] = useState("");
     const [myRoom, setMyRoom] = useState("");
-    const [rooms, setRooms] = useState([]);
+    const [rooms, setRooms] = useState({});
+    const [userTyping, setUserTyping] = useState("");
+
+    const [skipRun, setSkipRun] = useState(true);
+
 
 
 // Connect to socket & enter lobby
     const enterLobby = (username:string) => {
 		socket.connect();
-
+        setUsername(username);
         socket.emit('new-user', username);
 		socket.emit('join-room', 'lobby');
         
+    
 	};
 
-// Listen to changes to rooms & update state 
+
+//Listen to if a user is typing & update state
     useEffect(() => {
-        socket.on('rooms', (roomList) => {
-             setRooms(roomList)
-        })
-    }, [])
+        if (skipRun) setSkipRun(false);
+        if (!skipRun) {
+           socket.on('user-typing', (user:string) => {
+               console.log(username)
+            if (user !== username) {
+                   setUserTyping(user + " is typing...")
+                   setTimeout(() => {
+                   setUserTyping("");
+                   }, 2250)
+               }
+                    })
+        };
+    }, [username])
+
 
     useEffect(() => {
-        console.log(rooms);
-    }, [rooms])
+
+        // Listen to changes to rooms & update state 
+        socket.on('rooms', (roomList : IRoomObject[] ) => {
+             setRooms(roomList)
+        })
+
+        
+    }, [])
 
     // Listen to changes to user's room and join room on change
     useEffect(() => {
         if(myRoom !== "") {
             socket.emit('join-room', myRoom)
         }
+       
     }, [myRoom])
+
+    // Leave room function
+    const leaveRoom = (room : string) => {
+        setMyRoom("");
+        socket.emit('leave-room', room)
+
+    }
+
+// Function to let server know that a user is typing
+
+const isTyping = (user:string, room:string) => {
+    socket.emit('is-typing', {user, room})
+}
+
 
 
     return (
-        <SocketContext.Provider value={ {username, myRoom, enterLobby, setUsername, setMyRoom, rooms} }>
+        <SocketContext.Provider value={ {username, myRoom, enterLobby, setUsername, setMyRoom, rooms, leaveRoom, isTyping, userTyping} }>
            {children}
         </SocketContext.Provider>
     )
