@@ -52,9 +52,10 @@ function Room() {
 
 	return (
 		<div>
-			<h1>{myRoom}</h1>
+			<h1>Topic: {myRoom}</h1>
 
 			<div className="chatbox">
+				
 
 				<p>{whoIsTyping}</p>
 				<input type="text" onChange={(e) => {
