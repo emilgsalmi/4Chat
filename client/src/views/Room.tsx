@@ -23,9 +23,10 @@ function Room() {
 	const navigate = useNavigate();
 
 	// Render messages
-	const feedHtml = messages.map((msg) => {
+	const feedHtml = messages.map((msg, i) => {
 		return (
-			<article
+			<div
+				key={i}
 				className={
 					msg.username === username
 						? 'message message--self'
@@ -35,7 +36,7 @@ function Room() {
 				<h3 className='message__sender'>{msg.username}</h3>
 				<p className='message__message'>{msg.message}</p>
 				<br />
-			</article>
+			</div>
 		);
 	});
 
@@ -80,7 +81,7 @@ function Room() {
 			{/* Chatbox */}
 			<div className='chat'>
 				{/* Messages */}
-				<div className='chat__feed'>{feedHtml}</div>
+				<article className='chat__feed'>{feedHtml}</article>
 
 				{/* Typing indicator */}
 				<p className='chat__typing'>{whoIsTyping}</p>
