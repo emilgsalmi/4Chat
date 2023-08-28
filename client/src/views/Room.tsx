@@ -75,8 +75,7 @@ function Room() {
 
 	return (
 		<div>
-			{/* Room title */}
-			<h1>{myRoom}</h1>
+			<h1>Topic: {myRoom}</h1>
 
 			{/* Chatbox */}
 			<div className='chat'>
