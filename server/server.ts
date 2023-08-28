@@ -58,8 +58,7 @@ io.on('connection', (socket) => {
 	// Listen for chat message
 	socket.on('send-message', ({ data }) => {
 		// Send to everyone in the room including sender
-		console.log(data); //* FUNKAR
-		io.in(data.room).emit('recieve-message', data); //*
+		io.in(data.room).emit('recieve-message', data);
 	});
 
 	// Functions & Utils

@@ -110,7 +110,6 @@ const SocketProvider = ({ children }: PropsWithChildren) => {
 		}
 	}, [myRoom]);
 
-	//!-------------------------------------
 	// Listen to messages from server
 	const sendMessage = (message: string) => {
 		const data: IMessageObject = {
@@ -120,7 +119,6 @@ const SocketProvider = ({ children }: PropsWithChildren) => {
 		};
 		socket.emit('send-message', { data });
 	};
-	//!-------------------------------------
 
 	// Leave room function
 	const leaveRoom = (room: string) => {
