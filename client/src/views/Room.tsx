@@ -99,9 +99,19 @@ function Room() {
 				</article>
 				{/* Typing indicator */}
 				<p className='chat__typing'>{whoIsTyping}</p>
-				<div className="chat__lower__container">
-			
 
+				{/* Message form */}
+				<form 
+				className="chat__lower__container" 
+				onSubmit={(e) => {
+					e.preventDefault()
+					if (message !== '') {
+						sendMessage(message);
+						setMessage('');
+						}
+
+				}}>
+			
 				{/* Input field */}
 				<input
 					className='chat__input'
@@ -115,20 +125,15 @@ function Room() {
 
 				{/* Submit button */}
 				<button
-					className='chat__submit-btn btn'
-					onClick={() => {
-						if (message !== '') {
-						sendMessage(message);
-						setMessage('');
-						}
-					}}
+				type='submit'
+				className='chat__submit-btn btn'
 				>
 					Send
 				</button>
-				</div>
+				</form>
 			</div>
 
-					<div className='chat_right_container'>
+			<div className='chat_right_container'>
 			{/* List of participants */}
 			<div className='participant_list'>
 				<h4>Chat participants</h4>
