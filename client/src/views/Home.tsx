@@ -11,8 +11,9 @@ function Home() {
 	const [valid, setValid] = useState<boolean>();
 	const [usernameHolder, setUsernameHolder] = useState<string>('');
 	const navigate = useNavigate();
-	const handleLogin = () => {
+	const handleLogin = (e:SubmitEvent) => {
 		if (!valid) return;
+		e.preventDefault();
 		enterLobby(usernameHolder);
 		navigate('/lobby');
 	};
