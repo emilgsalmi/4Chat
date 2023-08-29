@@ -85,7 +85,7 @@ function Room() {
 
 	return (
 		<div id='chatroom_container'>
-			<h1 id='chatroom_topic'>Topic: <span id='topic_title'>{myRoom}</span></h1>
+			<h1 id='chatroom_topic'>{myRoom.toUpperCase()}</h1>
 
 		<div className='chat_content_container'>
 			{/* Chatbox */}

@@ -10,12 +10,8 @@ margin: 0;
 
     #chatroom_topic {
         text-align: center;
-        color: #011936;
-        font-size: 30px;
-        #topic_title {
-            font-size: 35px;
-            color: #F9DC5C;
-        }
+        font-size: 40px;
+        color: #F9DC5C;
     }
 
     .chat_content_container {
@@ -56,12 +52,12 @@ margin: 0;
 
     .chat {
         height: 700px;
-        background-color: #F4FFFD;
+        background-color: #011936;
         display: flex;
         flex-direction: column;
         justify-content: space-between;
-        border-radius: 5px;
-        
+        border-radius: 10px;
+
         .chat__typing {
             margin: 0;
         }
@@ -70,14 +66,15 @@ margin: 0;
         .chat__feed {
             width: 500px;
             height:600px;
-            border-top-left-radius: 5px;
-            border-top-right-radius: 5px;
+            border-top-left-radius: 10px;
+            border-top-right-radius: 10px;
             overflow-y: scroll;
 
             .message {
                 padding-inline: 15px;
                 height: fit-content;
                 margin: 0;
+                color:#F4FFFD;
 
                 h3 {
                     margin: 5px 0 10px 0;
@@ -106,10 +103,10 @@ margin: 0;
                 background-color: #F4FFFD;
                 border: none;
                 height: 50px;
-                width: 80%;
+                width: 85%;
                 margin: 0;
                 padding: 0;
-                border-bottom-left-radius: 5px;
+                border-bottom-left-radius: 10px;
                 &:focus {
                     outline-width: 0;
                 }
@@ -117,11 +114,10 @@ margin: 0;
 
             .chat__submit-btn {
               height: 100%;
-              width: 20%;
+              width: 15%;
               padding:0;
-              border: 0;
-              border-left: 2px solid #011936;
-              border-bottom-right-radius: 5px;
+              border: solid #F9DC5C;
+              border-bottom-right-radius: 10px;
               background-color: #F9DC5C;
               font-weight: bold;
             }
@@ -131,11 +127,13 @@ margin: 0;
    
 
     .exit_button {
-        background-color: #ED254E;
-        width: fit-content;
-        height: 20px;
+        background-color: #011936;
+        color: #ED254E;
+        width: 100px;
+        height: 50px;
         font-weight: bold;
-        border-color: #ED254E;
+        border: solid #011936;
+        border-radius: 10px;
     }
 }
 
