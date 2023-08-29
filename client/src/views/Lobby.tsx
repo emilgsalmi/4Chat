@@ -10,7 +10,7 @@ function Lobby() {
 	const [roomUsers, setRoomUsers] = useState([])
 	const [allUsers, setAllUsers] = useState(0)
 
-	const {setMyRoom, rooms, myRoom} = useSocket();
+	const {setMyRoom, rooms, setMessages, myRoom, joinRoom} = useSocket();
 	const navigate = useNavigate();
 
 	useEffect(() => {
@@ -30,7 +30,18 @@ function Lobby() {
 
 	useEffect(() => {
 		let rooms = roomList.map((room, i) => {
-			return <li key={i} onClick={() => {setMyRoom(room); navigate(`/room`)}} >
+			return <li key={i} onClick={() => 
+			{
+				if(myRoom !== '') {
+					joinRoom(room, myRoom)
+				}
+				else {
+                   joinRoom(room);
+				}
+			setMyRoom(room); 
+			setMessages([]); 
+			navigate('/room');
+			}} >
 			 <h4>{room}</h4>
 
 			 <span>Users in room: {roomUsers[i]}</span>	 
@@ -47,7 +58,7 @@ function Lobby() {
 			<div>
 				<h3>Create Room</h3>
 			<input type="text" placeholder="Topic" onChange={(e) => {setTopic(e.target.value)}} />
-			<button onClick={() => {setMyRoom(topic); navigate('/room')} }>CREATE</button>
+			<button onClick={() => {joinRoom(topic, myRoom); setMessages([]); navigate('/room')} }>CREATE</button>
 			</div>
 
 			<div>

@@ -22,17 +22,20 @@ io.on('connection', (socket) => {
 
 	socket.on('new-user', (username) => {
 		userList.set(socket.id, username);
-
 		socket.data.username = username;
+		// socket.leave(socket.id);
 	});
 
 	// Join room and update list of rooms
-	socket.on('join-room', (room) => {
+	socket.on('join-room', (room, leaveroom) => {
+			if(leaveroom !== undefined || room) {
+				socket.leave(leaveroom);
+			}
 		socket.join(room);
-
-		socket.leave(socket.id);
-		console.log(room);
-
+		if (socket.rooms.has(socket.id)) {
+			socket.leave(socket.id);
+		}
+	
 		updateRooms();
 		console.log(rooms);
 		socket.broadcast.emit('rooms', rooms);

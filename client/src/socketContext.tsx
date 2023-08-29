@@ -20,6 +20,8 @@ interface ISocketContext {
 
 	messages: IMessageObject[];
 	sendMessage: (message: string) => void;
+	setMessages: React.Dispatch<React.SetStateAction<IMessageObject[]>>;
+	joinRoom : (roomToJoin:string, roomToLeave?:string) => void;
 }
 
 export interface IRoomObject {
@@ -45,9 +47,10 @@ const defaultValues = {
 	leaveRoom: () => {},
 	isTyping: () => {},
 	userTyping: '',
-
 	messages: [],
 	sendMessage: () => {},
+	setMessages: () => {},
+	joinRoom: () => {}
 };
 
 // Context to access socketinfo
@@ -74,6 +77,7 @@ const SocketProvider = ({ children }: PropsWithChildren) => {
 		setUsername(username);
 		socket.emit('new-user', username);
 		socket.emit('join-room', 'lobby');
+		
 	};
 
 	//Listen to if a user is typing & update state
@@ -81,7 +85,7 @@ const SocketProvider = ({ children }: PropsWithChildren) => {
 		if (skipRun) setSkipRun(false);
 		if (!skipRun) {
 			socket.on('user-typing', (user: string) => {
-				// console.log(username);
+
 				if (user !== username) {
 					setUserTyping(user + ' is typing...');
 					setTimeout(() => {
@@ -120,6 +124,19 @@ const SocketProvider = ({ children }: PropsWithChildren) => {
 		socket.emit('send-message', { data });
 	};
 
+	// Join room function
+	const joinRoom = (roomToJoin:string, roomToLeave?:string) => {
+		setMyRoom(roomToJoin);
+		if (roomToLeave) {
+			socket.emit('join-room', roomToJoin, roomToLeave)
+		}
+		else {
+			socket.emit('join-room', roomToJoin)
+		}
+		
+	}
+
+
 	// Leave room function
 	const leaveRoom = (room: string) => {
 		setMyRoom('');
@@ -146,6 +163,8 @@ const SocketProvider = ({ children }: PropsWithChildren) => {
 				userTyping,
 				messages,
 				sendMessage,
+				setMessages,
+				joinRoom
 			}}
 		>
 			{children}

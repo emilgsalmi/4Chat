@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router';
 import { validateUsername } from '../utils/validation';
 
 function Home() {
-	const { username, setUsername, enterLobby } = useSocket();
+	const { enterLobby } = useSocket();
 	const [errorMsg, setErrorMsg] = useState(''); // error message to display if username is invalid
 
 	const [usernameHolder, setUsernameHolder] = useState("")
