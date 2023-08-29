@@ -1,7 +1,7 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useSocket } from '../socketContext';
 import { useNavigate } from 'react-router';
-
+import '../style/room.scss'
 function Room() {
 	//#region  Context
 	const {
@@ -21,6 +21,8 @@ function Room() {
 	const [whoIsTyping, setWhoIsTyping] = useState('');
 
 	const navigate = useNavigate();
+
+	const chatboxRef = useRef<HTMLDivElement>(null)
 
 	// Render messages
 	const feedHtml = messages.map((msg, i) => {
@@ -67,22 +69,31 @@ function Room() {
 		setWhoIsTyping(userTyping);
 	}, [userTyping]);
 
-	// Listen to changes to messages & render output
+	// Listen to changes to messages & render output + Autoscroll to bottom
 	useEffect(() => {
 		console.log('triggered messages useEffect in Room.tsx');
+		chatboxRef.current?.scrollIntoView({
+			behavior: 'smooth',
+			block: 'end'
+		})
 	}, [messages]);
 
 	//#endregion
 
 	return (
-		<div>
-			<h1>Topic: {myRoom}</h1>
+		<div id='chatroom_container'>
+			<h1 id='chatroom_topic'>Chat Topic: {myRoom}</h1>
 
+		<div className='chat_content_container'>
 			{/* Chatbox */}
 			<div className='chat'>
 				{/* Messages */}
-				<article className='chat__feed'>{feedHtml}</article>
+				<article className='chat__feed'>
+					{feedHtml}
+					<div ref={chatboxRef} className='chat_scroll_to_div'></div>
+				</article>
 
+				<div className="chat__lower__container">
 				{/* Typing indicator */}
 				<p className='chat__typing'>{whoIsTyping}</p>
 
@@ -107,19 +118,25 @@ function Room() {
 				>
 					Send
 				</button>
+				</div>
 			</div>
 
 			{/* List of participants */}
+			<div className='participant_list'>
+				<h4>Chat participants</h4>
 			<ul>{html}</ul>
+			</div>
+
+			</div>
 
 			{/* Leave room button */}
-			<button
+			<button className='exit_button'
 				onClick={() => {
 					leaveRoom(myRoom);
 					navigate(-1);
 				}}
 			>
-				Exit
+				EXIT CHAT
 			</button>
 		</div>
 	);
