@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { useSocket } from '../socketContext';
 import { useNavigate } from 'react-router';
-import '../style/room.scss'
+import '../styles/room.scss'
 function Room() {
 	//#region  Context
 	const {
@@ -13,12 +13,14 @@ function Room() {
 		userTyping,
 		messages,
 		sendMessage,
+		setMessages
 	} = useSocket();
 
 	const [participantList, setParticipantList] = useState([]);
 	const [html, setHtml] = useState<JSX.Element[]>([]);
 	const [message, setMessage] = useState('');
 	const [whoIsTyping, setWhoIsTyping] = useState('');
+
 
 	const navigate = useNavigate();
 
@@ -41,6 +43,7 @@ function Room() {
 			</div>
 		);
 	});
+
 
 	// Render participants
 	useEffect(() => {
@@ -69,20 +72,20 @@ function Room() {
 		setWhoIsTyping(userTyping);
 	}, [userTyping]);
 
-	// Listen to changes to messages & render output + Autoscroll to bottom
+	// Listen to changes to messages & Autoscroll to bottom
 	useEffect(() => {
-		console.log('triggered messages useEffect in Room.tsx');
 		chatboxRef.current?.scrollIntoView({
 			behavior: 'smooth',
 			block: 'end'
 		})
+
 	}, [messages]);
 
 	//#endregion
 
 	return (
 		<div id='chatroom_container'>
-			<h1 id='chatroom_topic'>Chat Topic: {myRoom}</h1>
+			<h1 id='chatroom_topic'>Topic: <span id='topic_title'>{myRoom}</span></h1>
 
 		<div className='chat_content_container'>
 			{/* Chatbox */}
@@ -90,12 +93,15 @@ function Room() {
 				{/* Messages */}
 				<article className='chat__feed'>
 					{feedHtml}
-					<div ref={chatboxRef} className='chat_scroll_to_div'></div>
-				</article>
 
-				<div className="chat__lower__container">
+					{/* div to stick to bottom for scrolling */}
+					<div ref={chatboxRef} className='chat_scroll_to_div'>
+					</div>
+				</article>
 				{/* Typing indicator */}
 				<p className='chat__typing'>{whoIsTyping}</p>
+				<div className="chat__lower__container">
+			
 
 				{/* Input field */}
 				<input
@@ -112,8 +118,10 @@ function Room() {
 				<button
 					className='chat__submit-btn btn'
 					onClick={() => {
+						if (message !== '') {
 						sendMessage(message);
 						setMessage('');
+						}
 					}}
 				>
 					Send
@@ -121,23 +129,27 @@ function Room() {
 				</div>
 			</div>
 
+					<div className='chat_right_container'>
 			{/* List of participants */}
 			<div className='participant_list'>
 				<h4>Chat participants</h4>
 			<ul>{html}</ul>
 			</div>
 
-			</div>
+			
 
 			{/* Leave room button */}
 			<button className='exit_button'
 				onClick={() => {
 					leaveRoom(myRoom);
+					setMessages([]);
 					navigate(-1);
 				}}
 			>
 				EXIT CHAT
 			</button>
+			</div>
+			</div>
 		</div>
 	);
 }
