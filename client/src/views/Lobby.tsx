@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useSocket } from "../socketContext";
 import { useNavigate } from "react-router";
+import '../style/lobby.scss'
 
 function Lobby() {
 
@@ -40,22 +41,26 @@ function Lobby() {
 	}, [roomList] ) 
 
 	return (
-		<div>
-			<h1>Lobby</h1>
-			<h6>Users online: {allUsers}</h6>
-           
-			<div>
-				<h3>Create Room</h3>
-			<input type="text" placeholder="Topic" onChange={(e) => {setTopic(e.target.value)}} />
-			<button onClick={() => {setMyRoom(topic); navigate('/room')} }>CREATE</button>
-			</div>
+		<div className="lobby_container">
 
-			<div>
+			<div className="lobby_title">
+			<h1>LOBBY</h1>
+			<h6>users online: {allUsers}</h6>
+			</div>
+           
+			<div className="lobby_room_container">
 			<h2>Alla Rum</h2>
             <ul>
 				{html}
 			</ul>
 			</div>
+
+			<div className="lobby_create_container">
+				<h3>Create Room</h3>
+			<input type="text" placeholder="Topic" onChange={(e) => {setTopic(e.target.value)}} />
+			<button onClick={() => {setMyRoom(topic); navigate('/room')} }>CREATE</button>
+			</div>
+
 			
 		</div>
 	);
