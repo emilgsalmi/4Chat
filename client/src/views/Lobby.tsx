@@ -1,6 +1,7 @@
-import { useEffect, useState } from 'react';
-import { useSocket } from '../socketContext';
-import { useNavigate } from 'react-router';
+import { useEffect, useState } from "react";
+import { useSocket } from "../socketContext";
+import { useNavigate } from "react-router";
+import '../styles/lobby.scss'
 
 function Lobby() {
 	const [topic, setTopic] = useState('');
@@ -54,11 +55,14 @@ function Lobby() {
 	}, [roomList]);
 
 	return (
-		<div>
+
+		<div className="lobby_container">
+      <div className="lobby_title">
 			<h1>Lobby</h1>
 			<h6>Users online: {allUsers}</h6>
+      </div>
 
-			<div>
+			<div className="lobby_create_container">
 				<h3>Create Room</h3>
 				<input
 					type='text'
@@ -78,7 +82,7 @@ function Lobby() {
 				</button>
 			</div>
 
-			<div>
+			<div className="lobby_room_container">
 				<h2>Alla Rum</h2>
 				<ul>{html}</ul>
 			</div>
