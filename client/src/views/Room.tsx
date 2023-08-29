@@ -37,7 +37,7 @@ function Room() {
 						: 'message message--other'
 				}
 			>
-				<h3 className='message__sender'>{msg.username}</h3>
+				<h3 className='message__sender'>{msg.username}:</h3>
 				<p className='message__message'>{msg.message}</p>
 				<br />
 			</div>
@@ -48,7 +48,6 @@ function Room() {
 	// Render participants
 	useEffect(() => {
 		for (const [room, names] of Object.entries(rooms)) {
-			// console.log(room);
 			if (room === myRoom) {
 				let list: any = [];
 				for (let i = 0; i < names.length; i++) {
