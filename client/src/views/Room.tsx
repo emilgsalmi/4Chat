@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { useSocket } from '../socketContext';
 import { useNavigate } from 'react-router';
-import '../style/room.scss'
+import '../styles/room.scss'
 function Room() {
 	//#region  Context
 	const {
