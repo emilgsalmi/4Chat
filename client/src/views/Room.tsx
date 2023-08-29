@@ -85,7 +85,7 @@ function Room() {
 
 	return (
 		<div id='chatroom_container'>
-			<h1 id='chatroom_topic'>Chat Topic: {myRoom}</h1>
+			<h1 id='chatroom_topic'>Topic: <span id='topic_title'>{myRoom}</span></h1>
 
 		<div className='chat_content_container'>
 			{/* Chatbox */}
@@ -118,8 +118,10 @@ function Room() {
 				<button
 					className='chat__submit-btn btn'
 					onClick={() => {
+						if (message !== '') {
 						sendMessage(message);
 						setMessage('');
+						}
 					}}
 				>
 					Send
@@ -127,24 +129,27 @@ function Room() {
 				</div>
 			</div>
 
+					<div className='chat_right_container'>
 			{/* List of participants */}
 			<div className='participant_list'>
 				<h4>Chat participants</h4>
 			<ul>{html}</ul>
 			</div>
 
-			</div>
+			
 
 			{/* Leave room button */}
 			<button className='exit_button'
 				onClick={() => {
 					leaveRoom(myRoom);
-					setMessages([])
+					setMessages([]);
 					navigate(-1);
 				}}
 			>
 				EXIT CHAT
 			</button>
+			</div>
+			</div>
 		</div>
 	);
 }
