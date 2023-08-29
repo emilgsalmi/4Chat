@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useSocket } from '../socketContext';
 import { useNavigate } from 'react-router';
-// import '../styles/lobby.scss';
 
 function Lobby() {
 	const [topic, setTopic] = useState('');
@@ -10,7 +9,7 @@ function Lobby() {
 	const [roomUsers, setRoomUsers] = useState([]);
 	const [allUsers, setAllUsers] = useState(0);
 
-	const { setMyRoom, rooms, myRoom } = useSocket();
+	const { setMyRoom, rooms, setMessages, myRoom, joinRoom } = useSocket();
 	const navigate = useNavigate();
 
 	useEffect(() => {
@@ -35,8 +34,14 @@ function Lobby() {
 				<li
 					key={i}
 					onClick={() => {
+						if (myRoom !== '') {
+							joinRoom(room, myRoom);
+						} else {
+							joinRoom(room);
+						}
 						setMyRoom(room);
-						navigate(`/room`);
+						setMessages([]);
+						navigate('/room');
 					}}
 				>
 					<h4>{room}</h4>
@@ -64,7 +69,8 @@ function Lobby() {
 				/>
 				<button
 					onClick={() => {
-						setMyRoom(topic);
+						joinRoom(topic, myRoom);
+						setMessages([]);
 						navigate('/room');
 					}}
 				>

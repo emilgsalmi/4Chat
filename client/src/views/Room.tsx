@@ -13,12 +13,14 @@ function Room() {
 		userTyping,
 		messages,
 		sendMessage,
+		setMessages
 	} = useSocket();
 
 	const [participantList, setParticipantList] = useState([]);
 	const [html, setHtml] = useState<JSX.Element[]>([]);
 	const [message, setMessage] = useState('');
 	const [whoIsTyping, setWhoIsTyping] = useState('');
+
 
 	const navigate = useNavigate();
 
@@ -41,6 +43,7 @@ function Room() {
 			</div>
 		);
 	});
+
 
 	// Render participants
 	useEffect(() => {
@@ -69,13 +72,13 @@ function Room() {
 		setWhoIsTyping(userTyping);
 	}, [userTyping]);
 
-	// Listen to changes to messages & render output + Autoscroll to bottom
+	// Listen to changes to messages & Autoscroll to bottom
 	useEffect(() => {
-		console.log('triggered messages useEffect in Room.tsx');
 		chatboxRef.current?.scrollIntoView({
 			behavior: 'smooth',
 			block: 'end'
 		})
+
 	}, [messages]);
 
 	//#endregion
@@ -90,12 +93,15 @@ function Room() {
 				{/* Messages */}
 				<article className='chat__feed'>
 					{feedHtml}
-					<div ref={chatboxRef} className='chat_scroll_to_div'></div>
-				</article>
 
-				<div className="chat__lower__container">
+					{/* div to stick to bottom for scrolling */}
+					<div ref={chatboxRef} className='chat_scroll_to_div'>
+					</div>
+				</article>
 				{/* Typing indicator */}
 				<p className='chat__typing'>{whoIsTyping}</p>
+				<div className="chat__lower__container">
+			
 
 				{/* Input field */}
 				<input
@@ -133,6 +139,7 @@ function Room() {
 			<button className='exit_button'
 				onClick={() => {
 					leaveRoom(myRoom);
+					setMessages([])
 					navigate(-1);
 				}}
 			>
