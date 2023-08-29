@@ -57,12 +57,11 @@ margin: 0;
     .chat {
         height: 700px;
         background-color: #F4FFFD;
-   
         display: flex;
         flex-direction: column;
         justify-content: space-between;
         border-radius: 5px;
-
+        
         .chat__typing {
             margin: 0;
         }

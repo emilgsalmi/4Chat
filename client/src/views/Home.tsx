@@ -11,12 +11,7 @@ function Home() {
 	const [valid, setValid] = useState<boolean>();
 	const [usernameHolder, setUsernameHolder] = useState<string>('');
 	const navigate = useNavigate();
-	const handleLogin = (e:SubmitEvent) => {
-		if (!valid) return;
-		e.preventDefault();
-		enterLobby(usernameHolder);
-		navigate('/lobby');
-	};
+
 
 	// Validate username on change
 	useEffect(() => {
@@ -36,7 +31,12 @@ function Home() {
 	return (
 		<div className='home'>
 			<div className='login'>
-				<form className='login__form' onSubmit={handleLogin}>
+				<form className='login__form' onSubmit={(e) => {
+						if (!valid) return;
+						e.preventDefault();
+						enterLobby(usernameHolder);
+						navigate('/lobby');
+				}}>
 					<h1 className='login__heading'>Hello 4Chatters</h1>
 					<div className='login__container'>
 						<input
