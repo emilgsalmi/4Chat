@@ -78,6 +78,7 @@ margin: 0;
 
                 h3 {
                     margin: 5px 0 10px 0;
+                    color: #F9DC5C;
                 }
 
                 p {
@@ -102,24 +103,16 @@ margin: 0;
             .chat__input {
                 background-color: #F4FFFD;
                 border: none;
-                height: 50px;
-                width: 85%;
+                height: 40px;
+                width: 500px;
                 margin: 0;
                 padding: 0;
                 border-bottom-left-radius: 10px;
+                border-bottom-right-radius: 10px;
+                overflow: auto;
                 &:focus {
                     outline-width: 0;
                 }
-            }
-
-            .chat__submit-btn {
-              height: 100%;
-              width: 15%;
-              padding:0;
-              border: solid #F9DC5C;
-              border-bottom-right-radius: 10px;
-              background-color: #F9DC5C;
-              font-weight: bold;
             }
         }
     }

@@ -25,6 +25,7 @@ function Room() {
 	const navigate = useNavigate();
 
 	const chatboxRef = useRef<HTMLDivElement>(null)
+	const formRef = useRef<HTMLFormElement>(null)
 
 	// Render messages
 	const feedHtml = messages.map((msg, i) => {
@@ -114,6 +115,7 @@ function Room() {
 			
 				{/* Input field */}
 				<input
+				placeholder='Type your message here'
 					className='chat__input'
 					type='text'
 					onChange={(e) => {
@@ -123,13 +125,6 @@ function Room() {
 					value={message}
 				/>
 
-				{/* Submit button */}
-				<button
-				type='submit'
-				className='chat__submit-btn btn'
-				>
-					Send
-				</button>
 				</form>
 			</div>
 
