@@ -9,6 +9,7 @@ function Lobby() {
 	const [roomList, setRoomList] = useState([]);
 	const [roomUsers, setRoomUsers] = useState([]);
 	const [allUsers, setAllUsers] = useState(0);
+	const [roomCreated, setRoomCreated] = useState<boolean>(false);
 
 	const { setMyRoom, rooms, setMessages, myRoom, joinRoom } = useSocket();
 	const navigate = useNavigate();
@@ -51,41 +52,55 @@ function Lobby() {
 				</li>
 			);
 		});
+
 		setHtml(rooms);
 	}, [roomList]);
 
+	useEffect(() => {
+		if(roomList.length > 0){
+			setRoomCreated(true);
+		}
+		else{
+			setRoomCreated(false)
+		}
+	},[roomList])
+
 	return (
 
-		<div className="lobby_container">
+	<div className="lobby_container">
       <div className="lobby_title">
-			<h1>Lobby</h1>
+			<h1>LOBBY</h1>
 			<h6>Users online: {allUsers}</h6>
       </div>
 
 			<div className="lobby_create_container">
-				<h3>Create Room</h3>
-				<input
-					type='text'
-					placeholder='Topic'
-					onChange={(e) => {
-						setTopic(e.target.value);
-					}}
-				/>
-				<button
-					onClick={() => {
-						joinRoom(topic, myRoom);
+				<form onSubmit={(e) => {
+					e.preventDefault();
+				}}>
+					<h3>Create Room</h3>
+					<input
+						type='text'
+						placeholder='Topic'
+						onChange={(e) => {
+							setTopic(e.target.value);
+						}}
+					/>
+					<button onClick={() => {
+						joinRoom(topic,myRoom);
 						setMessages([]);
-						navigate('/room');
-					}}
-				>
-					CREATE
-				</button>
+						navigate("/room");					
+					}}>
+						CREATE
+					</button>
+				</form>
 			</div>
 
-			<div className="lobby_room_container">
-				<h2>Alla Rum</h2>
+			
+			<div className={roomCreated ? "lobby_room_container" :"lobby_room_container--hide"}>
+				<h2>ALL ROOMS</h2>
 				<ul>{html}</ul>
 			</div>
+			
 		</div>
 	);
 }
