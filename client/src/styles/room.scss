@@ -5,13 +5,16 @@ align-items: center;
 justify-content: space-evenly;
 height: 100vh;
 width: 100vw;
-background-color: #465362;
+background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5));
 margin: 0;
 
     #chatroom_topic {
         text-align: center;
         font-size: 40px;
+        background-color: #011936;
         color: #F9DC5C;
+        padding: 15px;
+        border-radius: 10px;
     }
 
     .chat_content_container {
@@ -69,6 +72,7 @@ margin: 0;
             border-top-left-radius: 10px;
             border-top-right-radius: 10px;
             overflow-y: scroll;
+            
 
             .message {
                 padding-inline: 15px;
