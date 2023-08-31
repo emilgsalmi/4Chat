@@ -28,9 +28,9 @@ io.on('connection', (socket) => {
 
 	// Join room and update list of rooms
 	socket.on('join-room', (room, leaveroom) => {
-			if(leaveroom !== undefined || room) {
+		if(leaveroom !== undefined || room) {
 				socket.leave(leaveroom);
-			}
+		}
 		socket.join(room);
 		if (socket.rooms.has(socket.id)) {
 			socket.leave(socket.id);
