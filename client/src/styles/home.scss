@@ -1,0 +1,117 @@
+@use 'variables' as v;
+
+.home {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	height: 100vh;
+	background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5));
+}
+
+.login {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	width: 30rem;
+	height: 30rem;
+	background-color: v.$clr-secondary;
+	border-radius: 1rem;
+	box-shadow: 0 0 1rem rgba(0, 0, 0, 0.5);
+
+	&__form {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+		width: 100%;
+		height: 100%;
+		padding: 3rem;
+	}
+
+	&__heading {
+		font-family: v.$font-primary;
+		font-weight: v.$font-weight-bold;
+		color: v.$clr-primary;
+		margin-bottom: 2rem;
+	}
+
+	&__container {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+		width: 100%;
+		height: 50%;
+	}
+
+	&__input {
+		width: 100%;
+		height: 3rem;
+		margin-bottom: 1rem;
+		padding: 0 1rem;
+		border: none;
+		border-radius: 0.5rem;
+		font-family: v.$font-primary;
+		font-size: v.$font-size-large;
+		font-weight: v.$font-weight-bold;
+		color: v.$clr-secondary;
+		background-color: v.$clr-primary;
+		box-shadow: 0 0 0.5rem rgba(0, 0, 0, 0.5);
+
+		&::placeholder {
+			color: v.$clr-fade;
+			opacity: 0.5;
+		}
+
+		&--invalid {
+			color: v.$clr-warning;
+		}
+	}
+
+	&__prompt {
+		font-family: v.$font-secondary;
+		font-size: v.$font-size-small;
+		font-weight: v.$font-weight-light;
+
+		&--invalid {
+			color: v.$clr-warning;
+		}
+
+		&--valid {
+			color: greenyellow;
+		}
+	}
+
+	&__btn {
+		width: 100%;
+		height: 3rem;
+		margin-bottom: 1rem;
+		border: none;
+		border-radius: 0.5rem;
+		font-family: v.$font-primary;
+		font-size: v.$font-size-medium;
+		font-weight: v.$font-weight-light;
+		color: v.$clr-secondary;
+		background-color: v.$clr-primary;
+		box-shadow: 0 0 0.5rem rgba(0, 0, 0, 0.5);
+		cursor: pointer;
+
+		&:focus {
+			outline: none;
+		}
+
+		&:hover {
+			background-color: v.$clr-highlight;
+		}
+
+		&--disabled {
+			background-color: v.$clr-fade;
+			cursor: not-allowed;
+			&:hover {
+				background-color: v.$clr-fade;
+			}
+		}
+	}
+}
